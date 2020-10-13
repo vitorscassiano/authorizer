@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List, Any
 from authorizer.domain.account import Account
 
 
@@ -6,8 +7,10 @@ class Storage(ABC):
   @abstractmethod
   def is_empty() -> bool: pass
   @abstractmethod
-  def save(account: Account) -> None: pass
+  def save(data: Any) -> None: pass
   @abstractmethod
-  def find(account: Account): pass
+  def find(data: Any) -> Any: pass
   @abstractmethod
-  def remove(account: Account) -> None: pass
+  def remove(data: Any) -> None: pass
+  @abstractmethod
+  def find_all() -> List[Any]: pass

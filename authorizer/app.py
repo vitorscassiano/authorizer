@@ -6,22 +6,14 @@ from authorizer.application.controllers import (
 )
 
 
-def read_json(line):
-    try:
-        obj = json.loads(line)
-        return obj
-    except json.JSONDecodeError as e:
-        print(e)
-
-
 if(__name__ == "__main__"):
     for line in sys.stdin:
-        data = read_json(line.rstrip())
+        data = json.loads(line.rstrip())
         if("account" in data):
             response = account_controller.handler(data)
-            print(response)
+            print(json.dumps(response))
         elif("transaction" in data):
             response = transaction_controller.handler(data)
-            print(response)
+            print(json.dumps(response))
         else:
             print("something wrong.")
