@@ -1,44 +1,60 @@
-from unittest import TestCase
-from authorizer.application.controllers.create_account import CreateAccountController
-from authorizer.application.repositories.account_repository import AccountRepository
-from authorizer.application.usecases.account import AccountUsecase
+import json
+import contextlib
+
+from io import StringIO
+from unittest import TestCase, skip
+from unittest.mock import patch
+from authorizer.app import main
 
 
-class TestCreateAccountController(TestCase):
+class TestAccountService(TestCase):
     def setUp(self):
-        repository = AccountRepository()
-        usecase = AccountUsecase(repository)
-        self.controller = CreateAccountController(usecase)
+        self.mock_stdout = StringIO()
 
     def test_should_create_account(self):
-        payload = {"account": {"activeCard": True, "availableLimit": 100}}
-        response = self.controller.handler(payload)
-        self.assertEqual(
-            response,
-            {
+        operation = {"account": {"activeCard": True, "availableLimit": 100}}
+        mock_stdin = StringIO(json.dumps(operation))
+        with contextlib.redirect_stdout(self.mock_stdout):
+            with patch("sys.stdin", mock_stdin) as _:
+                main()
+
+        expected = {
+            "account": {
                 "activeCard": True,
                 "availableLimit": 100,
                 "violations": []
             }
-        )
+        }
+        result = json.loads(self.mock_stdout.getvalue().rstrip())
+        self.assertDictEqual(expected, result)
 
     def test_should_not_create_already_initialized_account(self):
-        payload = {"account": {"activeCard": True, "availableLimit": 100}}
-        first_response = self.controller.handler(payload)
-        self.assertEqual(
-            first_response,
-            {
+        operation = map(lambda j: json.dumps(j), [
+            {"account": {"activeCard": True, "availableLimit": 100}},
+            {"account": {"activeCard": True, "availableLimit": 100}}
+        ])
+        mock_stdin = StringIO("\n".join(operation))
+
+        with contextlib.redirect_stdout(self.mock_stdout):
+            with patch("sys.stdin", mock_stdin) as _:
+                main()
+
+        expected = [{
+            "account": {
                 "activeCard": True,
                 "availableLimit": 100,
                 "violations": []
             }
-        )
-        second_response = self.controller.handler(payload)
-        self.assertEqual(
-            second_response,
-            {
+        }, {
+            "account": {
                 "activeCard": True,
                 "availableLimit": 100,
                 "violations": ["account-already-initialized"]
             }
-        )
+        }]
+        result = [json.loads(j) \
+            for j in self.mock_stdout.getvalue().rstrip().split("\n")]
+        self.assertEqual(expected, result)
+
+    @skip("under development")
+    def test_should_raise_account_not_found(self): pass

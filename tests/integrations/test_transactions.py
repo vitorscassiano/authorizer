@@ -1,42 +1,26 @@
+import json
+import contextlib
+from io import StringIO
 from unittest import TestCase, skip
-from authorizer.application.controllers.transaction import PipelineTransactionController
-from authorizer.application.usecases.transactions.transaction_manager import TransactionManager
-from authorizer.application.repositories.account_repository import AccountRepository
-from authorizer.application.repositories.transaction_repository import TransactionRepository
-from authorizer.application.usecases.transactions.rules import (
-    CardNotActiveTransaction,
-    HighFrequencySmallInterval,
-    DoubledTransaction,
-    SubtractBalanceTransaction
-)
+from unittest.mock import patch
+from authorizer.app import main
 
-from authorizer.application.repositories.account_repository import AccountRepository
-from authorizer.application.usecases.account import AccountUsecase
 
-class TestPipelineTransactions(TestCase):
+class TestTransactionsService(TestCase):
     def setUp(self):
-        account_repository = AccountRepository()
-        account_usecase = AccountUsecase(account_repository)
-        transaction_repository = TransactionRepository()
-        manager = TransactionManager(
-            account_repository,
-            transaction_repository
-        )
-        transaction_controller = PipelineTransactionController(transaction_manager, account_usecase)
-        transaction_manager.subscribe(
-            CardNotActiveTransaction(),
-            # HighFrequencySmallInterval(),
-            DoubledTransaction(),
-            SubtractBalanceTransaction(),
-        )
+        self.mock_stdout = StringIO()
 
-    @skip("not implemented")
-    def test_should_validate_card_not_activated(self): pass
-    @skip("not implemented")
-    def test_should_validate_doubled_transaction(self): pass
-    @skip("not implemented")
-    def test_should_validate_high_frequency_small_interval(self): pass
-    @skip("not implemented")
-    def test_should_validate_insufficient_limit(self): pass
-    @skip("not implemented")
-    def test_should_validate_subtract_successfully(self): pass
+    @skip("under development")
+    def test_should_verify_insufficient_limit(self): pass
+
+    @skip("under development")
+    def test_should_verify_double_transactions(self): pass
+
+    @skip("under development")
+    def test_should_verify_card_not_active(self): pass
+
+    @skip("under development")
+    def test_should_verify_high_frequency_small_transactions(self): pass
+
+    @skip("under development")
+    def test_should_verify_subtract_balance_from_account(self): pass

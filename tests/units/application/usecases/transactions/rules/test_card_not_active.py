@@ -1,4 +1,4 @@
-from unittest import TestCase, skip
+from unittest import TestCase
 from unittest.mock import Mock, MagicMock
 
 from authorizer.application.usecases.transactions.transaction_manager import (
@@ -30,15 +30,3 @@ class TestCardNotActiveTransactionn(TestCase):
 
         self.mock_account_repo.find.assert_called_once()
         self.assertListEqual(account.violations, ["card-not-active"])
-
-    @skip("does not implemented")
-    def test_should_verify_account_not_found(self):
-        mock_account = {}
-        mock_transaction = {}
-        self.mock_account_repository.find.return_value = False
-
-        with self.assertRaises(Exception) as e:
-            self.transaction_manager.notify(mock_account, mock_transaction)
-
-        self.mock_account_repo.find.assert_called_once()
-        self.assertListEqual(str(e), ["card-not-active"])

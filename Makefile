@@ -1,8 +1,8 @@
-.PHONY: test.unit test.integration test.all build run
+.PHONY: test.unit test.integration test.all test.build build run
 PROJECT_NAME:=authorize
 
-install:
-	@pip install -r requirements.txt
+test.install:
+	@pip install -r tests/requirements.txt
 
 test.unit:
 	@pytest tests/units
@@ -10,7 +10,7 @@ test.unit:
 test.integration:
 	@pytest tests/integrations
 
-test.all: test.build
+test.all: | test.build
 	@docker run $(PROJECT_NAME)-test
 
 test.build:

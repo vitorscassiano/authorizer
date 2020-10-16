@@ -7,7 +7,7 @@ from authorizer.application.usecases.transactions.rules import (
     CardNotActiveTransaction,
     HighFrequencySmallInterval,
     DoubledTransaction,
-    SubtractBalanceTransaction
+    InsufficientLimitTransaction
 )
 
 account_repo = AccountRepository()
@@ -17,7 +17,7 @@ account_usecase = AccountUsecase(account_repo)
 transaction_manager = TransactionManager(account_repo, transaction_repo)
 transaction_manager.subscribe(
     CardNotActiveTransaction(),
-    # HighFrequencySmallInterval(),
     DoubledTransaction(),
-    SubtractBalanceTransaction(),
+    InsufficientLimitTransaction(),
+    HighFrequencySmallInterval(),
 )

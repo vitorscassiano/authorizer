@@ -8,4 +8,4 @@ class CreateAccountController:
         active_card=account["activeCard"],
         available_limit=account["availableLimit"]
       )
-      return account.to_json()
+      return {"account": account.to_json()}

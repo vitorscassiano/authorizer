@@ -1,4 +1,4 @@
-from unittest import TestCase, skip
+from unittest import TestCase
 from unittest.mock import Mock, MagicMock
 from tests.helpers.assert_any_helper import Any
 
@@ -66,7 +66,6 @@ class TestDoubledTransaction(TestCase):
 
 
     def test_should_verify_no_doubled_transaction(self):
-        mock_account_dto = {}
         mock_transaction_dto = {"merchant": "Burguer King", "amount": 10}
         self.mock_transaction_repo.find_all = Mock(return_value=[
             Transaction(
@@ -74,27 +73,27 @@ class TestDoubledTransaction(TestCase):
                 time="2019-02-13T10:00:00.000Z"
             )
         ])
-
-        mock_account = Mock()
-        mock_account.violations = []
-        self.mock_account_repo.find = Mock(return_value=mock_account)
         mock_transaction_dto["time"] = "2019-02-14T10:00:00.000Z"
+
+        mock_account = Account(activeCard=True,availableLimit=100)
+        self.mock_account_repo.find = Mock(return_value=mock_account)
+        self.mock_account_repo.save = Mock()
 
         account = self.transaction_manager.notify(mock_transaction_dto)
 
         self.mock_transaction_repo.find_all.assert_called_once()
-        self.assertEqual(self.mock_account_repo.find.call_count, 2)
+        self.mock_account_repo.find.assert_called_once()
+        self.mock_account_repo.save.assert_called_once_with(account)
         self.assertListEqual(account.violations, [])
+        self.assertEqual(account.availableLimit, 90)
 
     def test_should_verify_doubled_transaction(self):
         mock_transaction_dto = {
             "merchant": "Burguer King",
             "amount": 10,
-            "time": "2019-02-14T10:00:00.000Z"
+            "time": "2019-02-14T10:01:50.000Z"
         }
-        mock_account_dto = {}
-        mock_account = Mock()
-        mock_account.violations = []
+        mock_account = Account()
         self.mock_account_repo.find = Mock(return_value=mock_account)
         self.mock_transaction_repo.find_all = Mock(return_value=[
             Transaction(**mock_transaction_dto)

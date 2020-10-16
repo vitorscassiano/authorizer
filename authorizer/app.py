@@ -5,8 +5,7 @@ from authorizer.application.controllers import (
     transaction_controller
 )
 
-
-if(__name__ == "__main__"):
+def main():
     for line in sys.stdin:
         data = json.loads(line.rstrip())
         if("account" in data):
@@ -17,3 +16,6 @@ if(__name__ == "__main__"):
             print(json.dumps(response))
         else:
             print("something wrong.")
+
+if(__name__ == "__main__"):
+    main()

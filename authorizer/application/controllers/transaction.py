@@ -6,4 +6,4 @@ class PipelineTransactionController():
     def handler(self, data):
         transaction = data["transaction"]
         account = self.transaction_manager.notify(transaction)
-        return account.to_json()
+        return {"account": account.to_json()}

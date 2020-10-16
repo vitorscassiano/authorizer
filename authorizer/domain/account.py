@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field, asdict
 
 
-@dataclass
+@dataclass(frozen=True)
 class Account:
     activeCard: bool = True
     availableLimit: int = 0

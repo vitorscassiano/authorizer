@@ -1,22 +1,14 @@
-from typing import List
+from typing import List, Optional
 from authorizer.domain.transaction import Transaction
 
+from authorizer.domain.account import Account
 
-class TransactionRepository:
-    def __init__(self):
-        self.db = []
 
-    def is_empty(self, transaction: Transaction) -> None:
-        self.db.append(transaction)
+def is_empty(store: List[Transaction]):
+    return bool(len(store) <= 0)
 
-    def save(self, transaction: Transaction) -> None:
-        self.db.append(transaction)
+def save(store: List[Transaction], transaction: Transaction) -> None:
+    store = [transaction]
 
-    def find(self, transaction: Transaction) -> Transaction:
-        raise Exception("Does not implemented")
-
-    def find_all(self) -> List[Transaction]:
-        return self.db
-
-    def remove(self, transaction: Transaction) -> None:
-        raise Exception("Does not implemented")
+def find(store: List[Transaction], transaction: Transaction) -> Optional[Transaction]:
+    return filter(lambda t: t == transaction, store)
