@@ -12,8 +12,9 @@ class AccountUsecase:
             self.repository.save_account(account)
             return account
         else:
+            found = self.repository.find_account()
             return Account(
-                activeCard=active_card,
-                availableLimit=available_limit,
+                activeCard=found.activeCard,
+                availableLimit=found.availableLimit,
                 violations=["account-already-initialized"]
             )

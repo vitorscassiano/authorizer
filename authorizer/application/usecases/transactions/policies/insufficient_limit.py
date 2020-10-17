@@ -1,17 +1,12 @@
-from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 from authorizer.application.exceptions import InsufficientLimitException
+from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
 
 
-class InsufficientLimitTransaction(TransactionInterface):
-    def execute(
-        self,
-        account_repository: "Storage",
-        transaction_repository: "Storage",
-        account: Account,
-        transaction: Transaction
-    ):
+class InsufficientLimitPolicy(TransactionInterface):
+    @staticmethod
+    def execute(repository, account: Account, transaction: Transaction):
         if not(account):
             raise Exception("account-not-found")
 

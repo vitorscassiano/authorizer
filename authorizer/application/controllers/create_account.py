@@ -1,11 +1,13 @@
-class CreateAccountController:
-  def __init__(self, account_usecase: "AccountUsecases"):
-    self.account_usecase = account_usecase
+from authorizer.application.usecases import account_usecase
 
-  def handler(self, data):
-      account = data["account"]
-      account = self.account_usecase.create(
-        active_card=account["activeCard"],
-        available_limit=account["availableLimit"]
-      )
-      return {"account": account.to_json()}
+
+def build_response(account):
+    return dict(account=account.to_json())
+
+
+def create_account_handler(data, account_usecase=account_usecase):
+    active_card = data["account"]["activeCard"]
+    available_limit = data["account"]["availableLimit"]
+    account = account_usecase.create(active_card, available_limit)
+
+    return build_response(account)

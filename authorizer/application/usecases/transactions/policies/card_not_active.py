@@ -4,14 +4,9 @@ from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 
 
-class CardNotActiveTransaction(TransactionInterface):
-    def execute(
-        self,
-        account_repository: "Storage",
-        transaction_repository: "Storage",
-        account: Account,
-        transaction: Transaction
-    ):
+class CardNotActivePolicy(TransactionInterface):
+    @staticmethod
+    def execute(repository, account: Account, transaction: Transaction):
         if(account):
             if not(account.activeCard):
                 raise CardNotActiveException("card-not-active")

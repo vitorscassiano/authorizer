@@ -1,14 +1,25 @@
-from abc import ABC, abstractmethod
-from authorizer.application.repositories.storage import Storage
+from abc import ABCMeta, abstractmethod
+from authorizer.domain.account import Account
+from authorizer.domain.transaction import Transaction
+from authorizer.application.repositories import MemoryRepository
 
 
-class TransactionInterface(ABC):
-    @abstractmethod
+class abstractstatic(staticmethod):
+    __slots__ = ()
+
+    def __init__(self, function):
+        super(abstractstatic, self).__init__(function)
+        function.__isabstractmethod__ = True
+    __isabstractmethod__ = True
+
+
+class TransactionInterface(object):
+    __metaclass__ = ABCMeta
+
+    @abstractstatic
     def execute(
         self,
-        account_repository: Storage,
-        transaction_repository: Storage,
-        account_dto: dict,
-        transaction_dto: dict
-    ):
-        pass
+        repository: MemoryRepository,
+        account: Account,
+        transaction: Transaction
+    ): pass

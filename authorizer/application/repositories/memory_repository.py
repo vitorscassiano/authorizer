@@ -1,28 +1,30 @@
 from typing import List, Optional
 from collections import defaultdict
 
+ACCOUNTS = "accounts"
+TRANSACTIONS = "transactions"
+
 
 class MemoryRepository:
     def __init__(self, storage=defaultdict(list)):
         self.storage = storage
 
-    def save(self, key, value):
-        self.storage[key] = self.storage[key] + [value]
-
     def save_account(self, account):
-        self.save("account", account)
+        self.storage["account"] = [account]
 
     def save_transaction(self, transaction):
-        self.save("transaction", transaction)
+        self.storage[TRANSACTIONS] = self.storage[TRANSACTIONS] + \
+            [transaction]
 
     def is_account_empty(self):
-        return bool(self.storage["account"] <= 0)
+        return bool(len(self.storage["account"]) <= 0)
 
-    def find_account_by(self, account):
-        return filter(lambda a: a == account, self.storage)
+    def find_account(self):
+        accounts = self.storage["account"]
+        return accounts[0] if 0 < len(accounts) else None
 
-    def find_transaction_by(self, transaction):
-        return filter(lambda t: t == transaction, self.storage)
+    def find_all_transactions(self):
+        return self.storage[TRANSACTIONS]
 
-    def find_all_transaction(self):
-        return self.storage["transactions"]
+    def clean(self):
+        self.storage = defaultdict(list)
