@@ -53,7 +53,7 @@ You could run these tests running the following command:
 ```
 
 ## Running the application
-For running the application as streaming you can use the input redirection operator `<` or passing the stdin as required.
+For running the application as streaming you can use the input redirection operator `<` or passing the stdin as required.\
 The followinng example use this operator:
 
 #### System
