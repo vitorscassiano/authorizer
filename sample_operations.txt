@@ -8,5 +8,5 @@
 { "transaction": { "merchant": "Alta frequência lanches", "amount": 1, "time": "2019-02-16T11:00:01.000Z" } }
 { "transaction": { "merchant": "Alta frequência lanches", "amount": 2, "time": "2019-02-16T11:00:32.000Z" } }
 { "transaction": { "merchant": "Alta frequência lanches", "amount": 3, "time": "2019-02-16T11:01:33.000Z" } }
-{ "transaction": { "merchant": "Alta frequência lanches", "amount": 4, "time": "2019-02-16T11:01:34.000Z" } }
-{ "transaction": { "merchant": "Alta frequência lanches", "amount": 5, "time": "2019-02-16T11:02:05.000Z" } }
+{ "transaction": { "merchant": "Alta frequência lanches", "amount": 4, "time": "2019-02-16T11:02:31.000Z" } }
+{ "transaction": { "merchant": "Alta frequência lanches", "amount": 5, "time": "2019-02-16T11:02:32.000Z" } }
