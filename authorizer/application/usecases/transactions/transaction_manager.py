@@ -1,3 +1,4 @@
+from typing import List
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 from authorizer.application.exceptions import (
@@ -8,11 +9,11 @@ from authorizer.application.exceptions import (
 )
 
 
-def subtract(lessening, subtrahend):
+def subtract(lessening, subtrahend) -> int:
     return lessening - subtrahend
 
 
-def make_transaction(repository, account, transaction):
+def make_transaction(repository, account, transaction) -> Account:
     new_limit = subtract(account.availableLimit, transaction.amount)
     new_account = Account(
         activeCard=account.activeCard,
@@ -22,7 +23,7 @@ def make_transaction(repository, account, transaction):
     return new_account
 
 
-def policies():
+def policies() -> List[Exception]:
     return (
         CardNotActiveException,
         DoubledException,

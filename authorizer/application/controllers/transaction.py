@@ -5,7 +5,7 @@ def build_response(account):
     return dict(account=account.to_json())
 
 
-def transaction_handler(data, transaction_manager=transaction_manager):
+def transaction_handler(data: dict, transaction_manager=transaction_manager):
     transaction = data["transaction"]
     account = transaction_manager.process(transaction)
 

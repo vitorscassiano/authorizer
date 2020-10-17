@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
 from authorizer.domain.account import Account
@@ -6,7 +7,7 @@ from authorizer.domain.transaction import Transaction
 from authorizer.application.exceptions import DoubledException
 
 
-def minutes(delta: datetime):
+def minutes(delta: datetime) -> int:
     return delta.seconds/60
 
 
@@ -15,7 +16,7 @@ def is_double(
     other: str,
     TIMETOKEN="%Y-%m-%dT%H:%M:%S.%f%z",
     INTERVAL=2
-):
+) -> bool:
     current_time = datetime.strptime(current, TIMETOKEN)
     other_time = datetime.strptime(other, TIMETOKEN)
     delta = current_time - other_time
@@ -23,7 +24,10 @@ def is_double(
     return bool(minutes(delta) <= INTERVAL) if delta.days <= 0 else False
 
 
-def filter_doubles(transaction, transactions):
+def filter_doubles(
+    transaction: Transaction,
+    transactions: List[Transaction]
+) -> List[Transaction]:
     return filter(
         lambda t: t == transaction,
         filter(

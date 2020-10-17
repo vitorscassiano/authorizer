@@ -6,7 +6,7 @@ class AccountUsecase:
     def __init__(self, repository: MemoryRepository):
         self.repository = repository
 
-    def create(self, active_card, available_limit):
+    def create(self, active_card: bool, available_limit: int) -> Account:
         if(self.repository.is_account_empty()):
             account = Account(active_card, available_limit)
             self.repository.save_account(account)
