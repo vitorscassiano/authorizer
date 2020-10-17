@@ -1,31 +1,27 @@
-from unittest import TestCase
 from unittest.mock import Mock
 from authorizer.application.usecases.account import AccountUsecase
 from authorizer.domain.account import Account
 
 
-class TestAccount(TestCase):
-    def setUp(self):
-        self.mock_repository = Mock()
-        self.account_usecase = AccountUsecase(self.mock_repository)
+def test_should_be_created_account():
+    mock_repository = Mock()
+    mock_repository.is_account_empty.return_value = True
+    account_usecase = AccountUsecase(mock_repository)
+    account = account_usecase.create(True, available_limit=0)
+    expected_account = Account()
 
-    def test_should_create_account(self):
-        self.mock_repository.is_empty.return_value = True
-        self.account_usecase.create(active_card=True, available_limit=100)
+    mock_repository.is_account_empty.assert_called_once()
+    mock_repository.save_account.assert_called_once()
+    assert account == expected_account
 
-        self.mock_repository.is_empty.assert_called_once()
-        self.mock_repository.find.assert_not_called()
-        self.mock_repository.save.assert_called_once()
+def test_should_not_be_created_account():
+    mock_repository = Mock()
+    mock_repository.is_account_empty.return_value = False
+    account_usecase = AccountUsecase(mock_repository)
 
-    def test_should_raise_account_already_initialized(self):
-        self.mock_repository.is_empty.return_value = False
-        mock_account = Account()
+    account = account_usecase.create(True, 0)
+    expected_account = Account(violations=["account-already-initialized"])
 
-        account = self.account_usecase.create(True, 100)
-
-        self.mock_repository.is_empty.assert_called_once()
-        self.mock_repository.save.assert_not_called()
-        self.assertListEqual(
-            account.violations,
-            ["account-already-initialized"]
-        )
+    mock_repository.is_account_empty.assert_called_once()
+    mock_repository.save_account.assert_not_called()
+    assert account == expected_account
