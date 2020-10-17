@@ -1,0 +1,12 @@
+{ "account": { "activeCard": true, "availableLimit": 100 } }
+{ "transaction": { "merchant": "Burger King", "amount": 10, "time": "2019-02-13T10:00:00.000Z" } }
+{ "transaction": { "merchant": "Habbib's", "amount": 10, "time": "2019-02-13T11:00:00.000Z" } }
+{ "transaction": { "merchant": "SemLimite Lanches", "amount": 90, "time": "2019-02-13T11:00:00.000Z" } }
+{ "account": { "activeCard": true, "availableLimit": 350 } }
+{ "transaction": { "merchant": "X Duplos", "amount": 10, "time": "2019-02-15T11:00:00.000Z" } }
+{ "transaction": { "merchant": "X Duplos", "amount": 10, "time": "2019-02-15T11:01:00.000Z" } }
+{ "transaction": { "merchant": "Alta frequência lanches", "amount": 1, "time": "2019-02-16T11:00:01.000Z" } }
+{ "transaction": { "merchant": "Alta frequência lanches", "amount": 2, "time": "2019-02-16T11:00:32.000Z" } }
+{ "transaction": { "merchant": "Alta frequência lanches", "amount": 3, "time": "2019-02-16T11:01:33.000Z" } }
+{ "transaction": { "merchant": "Alta frequência lanches", "amount": 4, "time": "2019-02-16T11:01:34.000Z" } }
+{ "transaction": { "merchant": "Alta frequência lanches", "amount": 5, "time": "2019-02-16T11:02:05.000Z" } }

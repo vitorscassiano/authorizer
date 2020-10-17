@@ -4,30 +4,23 @@ from authorizer.domain.transaction import Transaction
 
 from authorizer.application.usecases.transactions.transaction_manager import TransactionManager
 from authorizer.application.usecases.transactions.policies import HighFrequencyPolicy
-from authorizer.application.usecases.transactions.policies.high_frequency_small_interval import get_delta, filter_interval
+from authorizer.application.usecases.transactions.policies.high_frequency_small_interval import filter_interval
 
-
-def test_should_be_got_delta():
-    time_a = "2019-02-13T10:10:00.000Z"
-    time_b = "2019-02-13T10:00:00.000Z"
-    delta = get_delta(time_a, time_b)
-
-    assert delta.seconds == 600
 
 
 def test_should_be_filtered_frequency():
-    transaction = Transaction(time="2019-02-13T10:05:00.000Z")
+    transaction = Transaction(time="2019-02-13T10:04:00.000Z")
     transactions = [
         Transaction(time="2019-02-13T10:00:00.000Z"),
-        Transaction(time="2019-02-13T10:01:00.000Z"),
+        Transaction(time="2019-02-13T10:01:30.000Z"),
         Transaction(time="2019-02-13T10:02:00.000Z"),
+        Transaction(time="2019-02-13T10:02:30.000Z"),
         Transaction(time="2019-02-13T10:03:00.000Z"),
-        Transaction(time="2019-02-13T10:04:00.000Z"),
     ]
 
     intervals = filter_interval(transaction, transactions)
 
-    assert len(list(intervals)) == 2
+    assert len(list(intervals)) == 3
 
 
 def test_should_be_verified_frequency_transactions_v1():
