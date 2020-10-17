@@ -45,10 +45,12 @@ class TransactionManager():
             self.subscriptions.remove(transaction)
 
     def process(self, transaction_dto: dict) -> Account:
-        account = self.repository.find_account()
         transaction = Transaction(**transaction_dto)
         try:
-            # breakpoint()
+            account = self.repository.find_account()
+            if not(account):
+                raise Exception("account-not-found")
+
             for subscription in self.subscriptions:
                 subscription.execute(self.repository, account, transaction)
             self.repository.save_transaction(transaction)
