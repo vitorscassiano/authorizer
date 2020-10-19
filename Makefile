@@ -17,12 +17,12 @@ test.check-sec:
 
 #test.unit: @ Runs the unit tests
 test.unit:
-	@pytest --cov-report term-missing --cov=authorizer tests/units
+	@pytest tests/units
 
 
 #test.integration: @ Runs the integration tests
 test.integration:
-	@pytest --cov-report term-missing --cov=authorizer tests/integrations
+	@pytest tests/integrations
 
 #test.all: @ Runs every tests (linter tool, unit, integratin)
 test.all: | test.check-sec test.unit test.integration
