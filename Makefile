@@ -29,7 +29,7 @@ test.all: | test.check-sec test.unit test.integration
 
 #test.docker.build: @ Builds the docker image for tests
 test.docker.build:
-	@docker build -t $(PROJECT_NAME)-test -f Dockerfile.test .
+	docker build -t $(PROJECT_NAME)-test -f Dockerfile.test .
 
 #test.docker.all: @ Runs all the tests inside a docker-container
 test.docker.all: | test.docker.build
@@ -37,7 +37,7 @@ test.docker.all: | test.docker.build
 
 #build: @ Builds the docker image for the application
 build:
-	@docker build -t $(PROJECT_NAME) .
+	docker build -t $(PROJECT_NAME) .
 
 #docker.run: @ Runs the application in docker
 docker.run: | build
