@@ -27,7 +27,7 @@ def test_should_be_verified_frequency_transactions_v1():
     transaction_dto = dict(time="2019-02-13T10:01:30.000Z")
     repository = Mock()
     repository.find_account.return_value = Account()
-    repository.find_all_transactions.return_value = [
+    repository.all_transactions.return_value = [
         Transaction(time="2019-02-13T10:00:00.000Z"),
         Transaction(time="2019-02-13T10:00:30.000Z"),
         Transaction(time="2019-02-13T10:01:00.000Z"),
@@ -40,7 +40,7 @@ def test_should_be_verified_frequency_transactions_v1():
     expected_account = Account(violations=["high-frequency-small-interval"])
 
     repository.find_account.assert_called_once()
-    repository.find_all_transactions.assert_called_once()
+    repository.all_transactions.assert_called_once()
     assert processed_account == expected_account
 
 
@@ -49,7 +49,7 @@ def test_should_be_verified_frequency_transactions_v2():
     transaction_dto = dict(time="2019-02-13T10:00:00.000Z")
     repository = Mock()
     repository.find_account.return_value = Account()
-    repository.find_all_transactions.return_value = db
+    repository.all_transactions.return_value = db
     repository.save_transaction = Mock()
     manager = TransactionManager(repository)
     manager.subscribe(HighFrequencyPolicy)
@@ -58,23 +58,23 @@ def test_should_be_verified_frequency_transactions_v2():
 
     transaction_dto = dict(time="2019-02-13T10:00:30.000Z")
     db = db + [Transaction(**transaction_dto)]
-    repository.find_all_transactions.return_value = db
+    repository.all_transactions.return_value = db
 
     manager.process(transaction_dto)
 
     transaction_dto = dict(time="2019-02-13T10:01:00.000Z")
     db = db + [Transaction(**transaction_dto)]
-    repository.find_all_transactions.return_value = db
+    repository.all_transactions.return_value = db
     manager.process(transaction_dto)
 
     transaction_dto = dict(time="2019-02-13T10:01:30.000Z")
     db = db + [Transaction(**transaction_dto)]
-    repository.find_all_transactions.return_value = db
+    repository.all_transactions.return_value = db
     processed_account = manager.process(transaction_dto)
 
     expected_account = Account(violations=["high-frequency-small-interval"])
 
     assert repository.find_account.call_count == 4
-    assert repository.save_transaction.call_count == 3
-    assert repository.find_all_transactions.call_count == 4
+    assert repository.save_transaction.call_count == 4
+    assert repository.all_transactions.call_count == 4
     assert processed_account == expected_account

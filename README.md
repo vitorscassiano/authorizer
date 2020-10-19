@@ -58,10 +58,10 @@ The followinng example use this operator:
 
 #### System
 ```shell
-> python -m authorizer.app < operations
+> python -m authorizer.app < sample_operations.txt
 ```
 
 #### Docker
 ```shell
-> make run < operations
+> make run < sample_operations.txt
 ```

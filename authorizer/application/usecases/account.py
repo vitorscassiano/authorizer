@@ -7,12 +7,12 @@ class AccountUsecase:
         self.repository = repository
 
     def create(self, active_card: bool, available_limit: int) -> Account:
-        if(self.repository.is_account_empty()):
+        found = self.repository.find_account()
+        if not(found):
             account = Account(active_card, available_limit)
             self.repository.save_account(account)
             return account
         else:
-            found = self.repository.find_account()
             return Account(
                 activeCard=found.activeCard,
                 availableLimit=found.availableLimit,

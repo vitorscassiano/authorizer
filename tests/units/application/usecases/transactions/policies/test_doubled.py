@@ -38,7 +38,7 @@ def test_should_be_no_doubled_transaction():
     transaction_dto = dict(time="2019-02-13T10:06:03.000Z")
     repository = Mock()
     repository.find_account.return_value = Account()
-    repository.find_all_transactions.return_value = [
+    repository.all_transactions.return_value = [
         Transaction(time="2019-02-13T10:00:00.000Z"),
         Transaction(time="2019-02-13T10:02:01.000Z"),
         Transaction(time="2019-02-13T10:04:02.000Z"),
@@ -49,7 +49,7 @@ def test_should_be_no_doubled_transaction():
     expected_account = Account()
 
     repository.find_account.assert_called_once()
-    repository.find_all_transactions.assert_called_once()
+    repository.all_transactions.assert_called_once()
     assert processed_account == expected_account
 
 
@@ -58,7 +58,7 @@ def test_should_be_doubled_transactionsn():
 
     repository = Mock()
     repository.find_account.return_value = Account()
-    repository.find_all_transactions.return_value = [
+    repository.all_transactions.return_value = [
         Transaction(time="2019-02-13T10:00:00.000Z"),
         Transaction(time="2019-02-13T10:00:30.000Z"),
         Transaction(time="2019-02-13T10:10:00.000Z"),

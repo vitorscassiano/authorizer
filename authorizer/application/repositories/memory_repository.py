@@ -16,14 +16,11 @@ class MemoryRepository:
         self.storage[TRANSACTIONS] = self.storage[TRANSACTIONS] + \
             [transaction]
 
-    def is_account_empty(self):
-        return bool(len(self.storage["account"]) <= 0)
-
     def find_account(self):
         accounts = self.storage["account"]
         return accounts[0] if 0 < len(accounts) else None
 
-    def find_all_transactions(self):
+    def all_transactions(self):
         return self.storage[TRANSACTIONS]
 
     def clean(self):

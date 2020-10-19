@@ -1,10 +1,9 @@
 from datetime import datetime
 from typing import List
-
-from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
-from authorizer.application.exceptions import DoubledException
+from authorizer.application.repositories import MemoryRepository
+from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
 
 
 def minutes(delta: datetime) -> int:
@@ -39,8 +38,13 @@ def filter_doubles(
 
 class DoubledPolicy(TransactionInterface):
     @staticmethod
-    def execute(repository, account, transaction):
-        transactions = repository.find_all_transactions()
+    def execute(
+        repository: MemoryRepository,
+        account: Account,
+        transaction: Transaction,
+        violations: list
+    ):
+        transactions = repository.all_transactions()
         doubles = filter_doubles(transaction, transactions)
         if(len(list(doubles)) >= 1):
-            raise DoubledException("doubled-transaction")
+            violations.append("doubled-transaction")
