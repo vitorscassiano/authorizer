@@ -1,5 +1,4 @@
 from unittest.mock import Mock
-from authorizer.application.repositories import MemoryRepository
 from authorizer.application.usecases.account import AccountUsecase
 from authorizer.domain.account import Account
 
@@ -14,6 +13,7 @@ def test_should_be_created_account():
     mock_repository.save_account.assert_called_once()
     mock_repository.find_account.assert_called_once()
     assert account == expected_account
+
 
 def test_should_not_be_created_account():
     mock_repository = Mock()

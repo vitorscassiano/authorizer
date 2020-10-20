@@ -1,5 +1,6 @@
 from authorizer.domain.account import Account
-from authorizer.application.repositories.memory_repository import MemoryRepository
+from authorizer.application.repositories.memory_repository \
+    import MemoryRepository
 
 
 class AccountUsecase:

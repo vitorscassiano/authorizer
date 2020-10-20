@@ -1,7 +1,9 @@
 from typing import List
+from functools import reduce
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 from authorizer.application.repositories import MemoryRepository
+
 
 def subtract(lessening: int, subtrahend: int) -> int:
     return lessening - subtrahend
@@ -35,20 +37,21 @@ class TransactionManager():
             self.subscriptions.remove(transaction)
 
     def process(self, transaction_dto: dict) -> Account:
-        violations = []
         transaction = Transaction(**transaction_dto)
         try:
             account = self.repository.find_account()
             if not(account):
                 raise Exception("account-not-found")
 
-            for subscription in self.subscriptions:
-                subscription.execute(
+            violations = reduce(
+                lambda c, n: c + n.execute(
                     self.repository,
                     account,
-                    transaction,
-                    violations
-                )
+                    transaction
+                ),
+                self.subscriptions,
+                []
+            )
 
             self.repository.save_transaction(transaction)
             if(len(violations) > 0):

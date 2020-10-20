@@ -1,25 +1,27 @@
 from unittest.mock import Mock
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
-from authorizer.application.usecases.transactions.transaction_manager import TransactionManager
-from authorizer.application.usecases.transactions.policies.doubled import DoubledPolicy, is_double, filter_doubles
+from authorizer.application.usecases.transactions.transaction_manager \
+    import TransactionManager
+from authorizer.application.usecases.transactions.policies.doubled \
+    import DoubledPolicy, is_double, filter_doubles
 
 
 def test_should_be_double():
     d = is_double("2019-02-13T10:00:00.000Z", "2019-02-13T10:00:00.000Z")
-    assert d == True
+    assert d
 
     d = is_double("2019-02-13T10:01:59.000Z", "2019-02-13T10:00:00.000Z")
-    assert d == True
+    assert d
 
     d = is_double("2019-02-13T10:02:01.000Z", "2019-02-13T10:00:00.000Z")
-    assert d == False
+    assert not d
 
     d = is_double("2019-02-13T10:03:00.000Z", "2019-02-13T10:00:00.000Z")
-    assert d == False
+    assert not d
 
     d = is_double("2019-02-14T10:03:00.000Z", "2019-02-13T10:00:00.000Z")
-    assert d == False
+    assert not d
 
 
 def test_should_be_filtered_doubles():

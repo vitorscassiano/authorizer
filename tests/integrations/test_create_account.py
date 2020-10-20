@@ -1,6 +1,7 @@
-from authorizer.application.controllers.create_account import create_account_handler
 from authorizer.application.repositories import MemoryRepository
 from authorizer.application.usecases import AccountUsecase
+from authorizer.application.controllers.create_account \
+    import create_account_handler
 
 
 def test_sould_create_account():

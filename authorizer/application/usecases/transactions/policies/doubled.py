@@ -3,7 +3,8 @@ from typing import List
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 from authorizer.application.repositories import MemoryRepository
-from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
+from authorizer.application.usecases.transactions.transaction_interface \
+    import TransactionInterface
 
 
 def minutes(delta: datetime) -> int:
@@ -30,7 +31,7 @@ def filter_doubles(
     return filter(
         lambda t: t == transaction,
         filter(
-            lambda t: is_double(transaction.time, t.time) == True,
+            lambda t: is_double(transaction.time, t.time),
             transactions
         )
     )
@@ -41,10 +42,10 @@ class DoubledPolicy(TransactionInterface):
     def execute(
         repository: MemoryRepository,
         account: Account,
-        transaction: Transaction,
-        violations: list
+        transaction: Transaction
     ):
         transactions = repository.all_transactions()
         doubles = filter_doubles(transaction, transactions)
         if(len(list(doubles)) >= 1):
-            violations.append("doubled-transaction")
+            return ["doubled-transaction"]
+        return []

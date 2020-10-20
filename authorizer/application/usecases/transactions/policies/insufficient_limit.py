@@ -1,7 +1,8 @@
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 from authorizer.application.repositories import MemoryRepository
-from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
+from authorizer.application.usecases.transactions.transaction_interface \
+    import TransactionInterface
 
 
 class InsufficientLimitPolicy(TransactionInterface):
@@ -9,8 +10,8 @@ class InsufficientLimitPolicy(TransactionInterface):
     def execute(
         repository: MemoryRepository,
         account: Account,
-        transaction: Transaction,
-        violations: list
+        transaction: Transaction
     ):
         if(account.availableLimit < transaction.amount):
-            violations.append("insufficient-limit")
+            return ["insufficient-limit"]
+        return []

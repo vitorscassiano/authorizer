@@ -15,6 +15,7 @@ def execute(line):
     else:
         raise Exception("invalid-payload")
 
+
 def main():
     for line in sys.stdin:
         try:

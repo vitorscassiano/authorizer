@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 from authorizer.application.repositories import MemoryRepository

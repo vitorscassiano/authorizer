@@ -1,7 +1,8 @@
 from authorizer.domain.account import Account
 from authorizer.domain.transaction import Transaction
 from authorizer.application.repositories import MemoryRepository
-from authorizer.application.usecases.transactions.transaction_interface import TransactionInterface
+from authorizer.application.usecases.transactions.transaction_interface \
+    import TransactionInterface
 
 
 class CardNotActivePolicy(TransactionInterface):
@@ -9,8 +10,8 @@ class CardNotActivePolicy(TransactionInterface):
     def execute(
         repository: MemoryRepository,
         account: Account,
-        transaction: Transaction,
-        violations: list
+        transaction: Transaction
     ):
         if not(account.activeCard):
-            violations.append("card-not-active")
+            return ["card-not-active"]
+        return []

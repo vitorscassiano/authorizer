@@ -1,8 +1,9 @@
 from unittest.mock import Mock
 from authorizer.domain.account import Account
-from authorizer.domain.transaction import Transaction
-from authorizer.application.usecases.transactions.transaction_manager import TransactionManager
-from authorizer.application.usecases.transactions.policies import InsufficientLimitPolicy
+from authorizer.application.usecases.transactions.transaction_manager \
+    import TransactionManager
+from authorizer.application.usecases.transactions.policies \
+    import InsufficientLimitPolicy
 
 
 def test_should_be_insufficient_limit():

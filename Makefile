@@ -1,10 +1,13 @@
-.PHONY: help test.install test.check-sec test.unit test.integration test.docker.all test.all test.build build docker.run run
+.PHONY: help lint test.install test.check-sec test.unit test.integration test.docker.all test.all test.build build docker.run run
 PROJECT_NAME:=authorizer
 
 help:
 	@grep -E '[a-zA-Z\.\-]+:.*?@ .*$$' $(MAKEFILE_LIST) \
 		| tr -d '#'  \
 		| awk 'BEGIN {FS = ":.*?@ "}; {printf "\t- \033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+lint:
+	@flake8 authorizer tests
 
 #test.install: @ Install all dependencies (principal: for the tests)
 test.install:
@@ -25,7 +28,7 @@ test.integration:
 	@pytest tests/integrations
 
 #test.all: @ Runs every tests (linter tool, unit, integratin)
-test.all: | test.check-sec test.unit test.integration
+test.all: | test.check-sec lint test.unit test.integration
 
 #test.docker.build: @ Builds the docker image for tests
 test.docker.build:
