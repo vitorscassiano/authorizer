@@ -10,10 +10,6 @@ FREQUENCY = 3
 TIMETOKEN = "%Y-%m-%dT%H:%M:%S.%f%z"
 
 
-def minutes(delta: datetime) -> int:
-    return delta.seconds/60
-
-
 def p_time(time: str) -> datetime:
     return datetime.strptime(time, TIMETOKEN)
 
