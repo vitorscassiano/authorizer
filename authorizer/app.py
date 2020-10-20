@@ -6,7 +6,7 @@ from authorizer.application.controllers import (
 )
 
 
-def execute(line):
+def router(line):
     data = json.loads(line.rstrip())
     if("account" in data):
         return create_account_handler(data)
@@ -19,7 +19,7 @@ def execute(line):
 def main():
     for line in sys.stdin:
         try:
-            response = execute(line)
+            response = router(line)
             print(json.dumps(response))
         except Exception as e:
             print(json.dumps({"error": str(e)}))

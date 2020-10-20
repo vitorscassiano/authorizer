@@ -1,4 +1,4 @@
-# Authorizer Challanger
+# Authorizer Challenge
 The application that authorizes a transaction for a specific account following a set of predefined rules.
 
 Predefined rules:
@@ -58,10 +58,14 @@ The followinng example use this operator:
 
 #### System
 ```shell
+> make run < sample_operations.txt
+```
+or
+```shell
 > python -m authorizer.app < sample_operations.txt
 ```
 
 #### Docker
 ```shell
-> make run < sample_operations.txt
+> make docker.run < sample_operations.txt
 ```
